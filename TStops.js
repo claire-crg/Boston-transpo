@@ -1,7 +1,7 @@
 var TStops = {
 "type": "FeatureCollection",
-"name": "MBTA_NODE",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::26986" } },
+"name": "TStops",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { "STATION": "Ashmont", "LINE": "RED", "TERMINUS": "Y", "ROUTE": "A - Ashmont  C - Alewife" }, "geometry": { "type": "Point", "coordinates": [ 236007.538391381502151, 892693.022565476596355 ] } },
 { "type": "Feature", "properties": { "STATION": "Harvard", "LINE": "RED", "TERMINUS": "N", "ROUTE": "A - Ashmont  B - Braintree  C - Alewife" }, "geometry": { "type": "Point", "coordinates": [ 231387.273939073085785, 902684.015982784330845 ] } },
