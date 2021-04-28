@@ -63,8 +63,6 @@
 				fillOpacity: 0.8,
 			};
 
-			//var geojsonLine = {weight:2,color: "purple",opacity:0.8,}
-
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
 					onEachFeature: function(feature,layer){
