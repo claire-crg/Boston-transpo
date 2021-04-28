@@ -64,15 +64,23 @@
 				fillColor: "#C4DDEE",
 				color: "#C4DDEE",
 				weight: 1,
-				opacity: 0,
+				opacity: 0.8,
 				fillOpacity: 0.8,
+			};
+
+			var busRoutes = {
+				"type": "Feature",
+				"properties":{
+					"name": "Bus Routes",
+					"popupContent": "Bus Route:"
+				}
 			};
 
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
 					onEachFeature: function(feature,layer){
-						layer.bindPopup(feature.properties.MBTA_ROUTE),
-					{color: "#C4DDEE", weight: 1, opacity: 0.5};
+						layer.bindPopup(feature.properties.popupContent.MBTA_ROUTE),
+					{color: "#C4DDEE", weight: 2};
 					}
 				}).addTo(map);
 			});
@@ -88,7 +96,7 @@
 			$.getJSON("data/Highway_Sub_Districts.geojson",function(data){
 				L.geoJson(data,{color:"black", weight:1, fillOpacity:0}).addTo(map);
 			});
-			
+
 			$.getJSON("data/highways.geojson",function(data){
 				L.geoJson(data,{color:"#DDAD7F", weight:1, opacity: 0.7, fillOpacity:0}).addTo(map);
 			});
