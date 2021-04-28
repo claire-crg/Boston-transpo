@@ -57,7 +57,7 @@
 			var geojsonMarkerOptions = {
 				radius: 3,
 				fillColor: "purple",
-				//color: "blue",
+				color: "purple",
 				weight: 1,
 				opacity: 0.8,
 				fillOpacity: 0.8,
@@ -68,9 +68,9 @@
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
 					onEachFeature: function(feature,layer){
-						layer.bindPopup(feature.properties.MBTA_ROUTE)
-					,{color: "purple", weight: 2}
-					;}
+						layer.bindPopup(feature.properties.MBTA_ROUTE),
+					{color: "purple", weight: 1, opacity: 0.8};
+					}
 				}).addTo(map);
 			});
 
@@ -83,7 +83,7 @@
 			});
 
 			$.getJSON("data/Highway_Sub_Districts.geojson",function(data){
-				L.geoJson(data,{color:"purple", weight:1, fillOpacity:0}).addTo(map);
+				L.geoJson(data,{color:"black", weight:1, fillOpacity:0}).addTo(map);
 			});
 
 		</script>
