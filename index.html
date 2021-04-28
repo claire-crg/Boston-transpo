@@ -54,15 +54,15 @@
 
 			map.addLayer(mapboxTiles);
 
-			$.getJSON("busStops.geojson",function(data){
+			$.getJSON("data/busStops.geojson",function(data){
 				L.geoJson(data).addTo(map);
 			});
 
-			$.getJSON("busRoutes.geojson",function(data){
+			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data).addTo(map);
 			});
 
-			$.getJSON("Highway_Sub_Districts.geojson",function(data){
+			$.getJSON("data/Highway_Sub_Districts.geojson",function(data){
 				L.geoJson(data).addTo(map);
 			});
 
