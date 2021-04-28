@@ -11,8 +11,11 @@
 
 	<meta charset="utf-8">
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 	<link rel="stylesheet"
-	href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css">
+	href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+	<script src ="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"> </script>
 
 	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
@@ -35,9 +38,6 @@
 
 		<div id='map'></div>
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-
 		<script>
 
 			var map=L.map('map',{
@@ -54,9 +54,9 @@
 
 			map.addLayer(mapboxTiles);
 
-			$.getJSON("busStops.geojson", function(data){
+			$.getJSON("busStops.geojson",function(data){
 				L.geoJson(data,{
-					onEachFeature: function(feature, layer){
+					onEachFeature:function(feature,layer){
 						layer.bindPopup(feature.properties.name);
 					}
 					).addTo(map);
