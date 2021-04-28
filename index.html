@@ -71,7 +71,7 @@
 				fillOpacity: 0.8,
 			};
 
-			$.get('./data.csv', function(csvString) {
+			$.get('.data/data.csv', function(csvString) {
 
     // Use PapaParse to convert string to array of objects
     var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
