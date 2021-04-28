@@ -88,8 +88,6 @@
 
 			map.addLayer(mapboxTiles);
 
-			//var map = new mapboxgl.Map({container: 'map',style: 'mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8',center: [-71.15229363080779, 42.35],zoom: 10});
-
 			var geojsonMarkerOptions = {
 				radius: 3,
 				fillColor: "#C4DDEE",
@@ -123,6 +121,10 @@
 			$.getJSON("data/highways.geojson",function(data){
 				L.geoJson(data,{color:"#DDAD7F", weight:1, opacity: 0.9, fillOpacity:0}).addTo(map);
 			});
+
+			var marker = L.marker([row.latitude, row.longitude],{
+				opcacity:0)
+			}).bindPopup.(row.tot_workers_over16)
 
 		</script>
 
