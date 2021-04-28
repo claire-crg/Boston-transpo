@@ -1,0 +1,16 @@
+﻿City,Boston,Cambridge,Lynn,Newton,Quincy,Somerville
+tot_workers_16+,"722,210","151,600","24,235","53,342","45,979","30,025"
+alone_car_truck_van,"294,131","62,239","24,235","36,278","34,832","16,741"
+carpool_car_truck_van,"41,854","9,588","2,629","3,031","2,705","1,882"
+pub_trans,"276,422","45,826",361,"5,663","4,162","5,068"
+male,51.80%,52.70%,N,47.00%,50.40%,44.80%
+female,48.20%,47.30%,N,53.00%,49.60%,55.20%
+            White,67.10%,71.80%,N,75.50%,72.10%,69.20%
+            Black or African American,14.30%,6.60%,N,N,N,N
+            American Indian and Alaska Native,N,N,N,N,N,N
+            Asian,10.10%,15.70%,N,9.30%,13.70%,N
+            Native Hawaiian and Other Pacific Islander,N,N,N,N,N,N
+            Some other race,4.20%,N,N,N,N,N
+        Two or more races,4.20%,3.00%,N,N,N,N
+        Hispanic or Latino origin (of any race),13.80%,10.30%,N,9.80%,N,N
+"        White alone, not Hispanic or Latino origin",60.30%,65.40%,N,69.90%,70.10%,66.10%
