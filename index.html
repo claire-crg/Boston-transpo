@@ -70,12 +70,6 @@
 				fillOpacity: 0.8,
 			};
 
-			$.get('.data/data.csv', function(csvString) {
-
-    // Use PapaParse to convert string to array of objects
-    var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
-
-
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
 					onEachFeature: function(feature,layer){
