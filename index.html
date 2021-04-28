@@ -61,6 +61,12 @@
 				fillOpacity: 0.8,
 			};
 
+			var geojsonLine = {
+				weight:2,
+				color: "purple",
+				opacity:0.8,
+			}
+
 			map.addLayer(mapboxTiles);
 
 			$.getJSON("data/busStops.geojson",function(data){	
@@ -72,9 +78,12 @@
 			});
 
 			$.getJSON("data/busRoutes.geojson",function(data){
-				L.geoJson(data, {color: "purple", weight: 2}{
+				L.geoJson(data, {
 					onEachFeature: function(feature, layer){
 						layer.bindPopup(feature.properties.MBTA_ROUTE);
+						weight:2;
+						color: "purple";
+						opacity:0.8;
 					}
 				}).addTo(map);
 			});
