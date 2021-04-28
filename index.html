@@ -20,6 +20,8 @@
 	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
 
+<!-- I removed the 3 lines of src= for the data files here since we are using jquery -->
+
 	<style>
 
 		#map {
@@ -52,41 +54,46 @@
 				maxZoom: 22,
 				});
 
-			var geojsonMarkerOptions = {
-				radius: 3,
-				fillColor: "blue",
-				//color: "blue",
-				weight: 1,
-				opacity: 0.8,
-				fillOpacity: 0.8,
-			};
-
-			var geojsonLine = {
-				weight:2,
-				color: "purple",
-				opacity:0.8,
-			}
-
 			map.addLayer(mapboxTiles);
 
-			$.getJSON("data/busStops.geojson",function(data){	
-				L.geoJson(data, {
-					pointToLayer: function(feature,latlng){
-						return L.circleMarker(latlng, geojsonMarkerOptions);
-					}
-				}).addTo(map);
-			});
+			// added this variable to set point data style as circle-marker
+			var geojsonMarkerOptions = {
+			    radius: 8,
+			    fillColor: "#00ccff",
+			    color: "#006680",
+			    weight: 1,
+			    opacity: 1,
+			    fillOpacity: 0.8
+			};
+
+
+			// In original I deleted 2 extra spaces that were here around "function"
+			// this version shows styling of lines and polygons
+			// this version has point data rendered as circle marker for styling
+			// this version has a popup on the point data
+
+
 
 			$.getJSON("data/busRoutes.geojson",function(data){
-				L.geoJson(data, {
-					onEachFeature: function(feature,layer){
-						layer.bindPopup(feature.properties.MBTA_ROUTE);
-					}).addTo(map);
+				L.geoJson(data, {color: "purple", weight: 2}).addTo(map);
 			});
 
-			$.getJSON("data/Highway_Sub_Districts.geojson",function(data){
-				L.geoJson(data,{color:"purple", weight:1, fillOpacity:0}).addTo(map);
+			$.getJSON("data/highwaySubDistricts.geojson",function(data){
+				L.geoJson(data,{color: "orange", fillColor: "yellow", weight: 4}).addTo(map);
 			});
+
+			$.getJSON("data/busStops.geojson",function(data){
+				L.geoJson(data, {
+			    pointToLayer: function (feature, latlng) {
+			        return L.circleMarker(latlng, geojsonMarkerOptions);
+			    },
+			    onEachFeature: function (feature, layer) {
+			        layer.bindPopup(feature.properties.STOP_NAME);
+			    }
+			}).addTo(map);
+			});
+
+
 
 		</script>
 
