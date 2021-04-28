@@ -81,10 +81,10 @@
 				L.geoJson(data, {
 					onEachFeature: function(feature, layer){
 						layer.bindPopup(feature.properties.MBTA_ROUTE);
-						weight:2;
-						color: "purple";
-						opacity:0.8;
-					}
+					},
+					{weight:2,
+					color: "purple",
+					opacity:0.8,
 				}).addTo(map);
 			});
 
