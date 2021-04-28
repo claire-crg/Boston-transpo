@@ -16,7 +16,7 @@
 	<link rel="stylesheet"
 	href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
 	<script src ="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"> </script>
-	
+
 	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
 
@@ -43,19 +43,21 @@
 
 		<script>
 
-			//var map=L.map('map',{
-			//	center:[42.35, -71.15229363080779],
-			//	zoom:11
-			//	});
+			var map=L.map('map',{
+				center:[42.35, -71.15229363080779],
+				zoom:11
+				});
 
-			mapboxgl.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
+			L.mapbox.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
 
-			var map = new mapboxgl.Map({
-			container: 'map',
-			style: 'mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8',
-			center: [-71.15229363080779, 42.35],
-			zoom: 10
-			});
+			var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
+		         attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+				maxZoom: 22,
+				});
+
+			map.addLayer(mapboxTiles);
+
+			//var map = new mapboxgl.Map({container: 'map',style: 'mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8',center: [-71.15229363080779, 42.35],zoom: 10});
 
 			var geojsonMarkerOptions = {
 				radius: 3,
