@@ -52,14 +52,31 @@
 				maxZoom: 22,
 				});
 
+			var geojsonMarkerOptions = {
+				radius: 6,
+				fillColor: "blue",
+				color: "blue",
+				weight: 1,
+				opacity: 0.8,
+				fillOpacity: 0.8,
+			};
+
 			map.addLayer(mapboxTiles);
 
-			$.getJSON("data/busStops.geojson",function(data){
-				L.geoJson(data).addTo(map);
+			$.getJSON("data/busStops.geojson",function(data){	
+				L.geoJson(data, {
+					pointToLayer: function(feature,latlng){
+						return L.circleMarker(latlng, geojsonMarkerOptions);
+					}
+				}).addTo(map);
 			});
 
 			$.getJSON("data/busRoutes.geojson",function(data){
-				L.geoJson(data).addTo(map);
+				L.geoJson(data, {
+					onEachFeature: function(feature, layer){
+						layer.bindPopup(feature.properties.MBTA_ROUTE);
+					}
+				}).addTo(map);
 			});
 
 			$.getJSON("data/Highway_Sub_Districts.geojson",function(data){
