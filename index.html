@@ -79,7 +79,7 @@
 
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
-					onEachFeature: function(feature, layer){
+					onEachFeature: function(feature,layer){
 						layer.bindPopup(feature.properties.MBTA_ROUTE);
 					}).addTo(map);
 			});
@@ -87,10 +87,6 @@
 			$.getJSON("data/Highway_Sub_Districts.geojson",function(data){
 				L.geoJson(data,{color:"purple", weight:1, fillOpacity:0}).addTo(map);
 			});
-
-			//L.geoJSON(busStops, {color: "purple", weight: 1}).addTo(map);
-			//L.geoJSON(busRoutes, {color: "purple", weight: 1}).addTo(map);
-			//L.geoJSON(highwaySubDistricts).addTo(map);
 
 		</script>
 
