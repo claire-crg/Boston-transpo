@@ -12,16 +12,16 @@
 	<meta charset="utf-8">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<link rel="stylesheet"
-	href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-	<script src ="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"> </script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
-	<link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
-
-
 
 	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+
+	<link rel="stylesheet"
+	href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+	<script src ="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"> </script>
 
 
 	<style>
@@ -61,13 +61,11 @@
 			var geojsonMarkerOptions = {
 				radius: 3,
 				fillColor: "purple",
-				//color: "blue",
+				color: "purple",
 				weight: 1,
 				opacity: 0.8,
 				fillOpacity: 0.8,
 			};
-
-			//var geojsonLine = {weight:2,color: "purple",opacity:0.8,}
 
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
