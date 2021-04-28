@@ -12,17 +12,10 @@
 	<meta charset="utf-8">
 
 	<link rel="stylesheet"
-	href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-	<script src ="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"> </script>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css">
 
 	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
-
-	<script src="busStops.js" type="text/javascript"></script>
-	<script src="highwaySubDistricts.js" type="text/javascript"></script>
-	<script src="busRoutes.js" type="text/javascript"></script> 
 
 	<style>
 
@@ -42,6 +35,9 @@
 
 		<div id='map'></div>
 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
 		<script>
 
 			var map=L.map('map',{
@@ -58,12 +54,16 @@
 
 			map.addLayer(mapboxTiles);
 
-			$.getJSON("busStops.geojson", function (data){
-				L.geoJson(data).addTo(map);
+			$.getJSON("busStops.geojson", function(data){
+				L.geoJson(data,{
+					onEachFeature: function(feature, layer){
+						layer.bindPopup(feature.properties.name);
+					}
+					).addTo(map);
 			});
 
-			//L.geoJSON(busStops).addTo(map);
-			//L.geoJSON(busRoutes).addTo(map);
+			//L.geoJSON(busStops, {color: "purple", weight: 1}).addTo(map);
+			//L.geoJSON(busRoutes, {color: "purple", weight: 1}).addTo(map);
 			//L.geoJSON(highwaySubDistricts).addTo(map);
 
 		</script>
