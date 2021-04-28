@@ -68,18 +68,10 @@
 				fillOpacity: 0.8,
 			};
 
-			var busRoutes = {
-				"type": "Feature",
-				"properties":{
-					"name": "Bus Routes",
-					"popupContent": "Bus Route:"
-				}
-			};
-
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
 					onEachFeature: function(feature,layer){
-						layer.bindPopup(feature.properties.popupContent.MBTA_ROUTE),
+						layer.bindPopup(feature.properties.MBTA_ROUTE),
 					{color: "#C4DDEE", opacity: 0.5, weight: 2};
 					}
 				}).addTo(map);
