@@ -24,6 +24,8 @@
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+	
+	<link href="https://fonts.googleapis.com/css?family=Lora|Ubuntu|" rel="stylesheet">
 
 	<style>
 
@@ -36,21 +38,31 @@
 		}
 	
 		#title h1{
-		font-size: 3em;
-                font-family: 'Ubuntu', serif;
-                font-weight: bold;
-                color: #696969;
-                letter-spacing: .08em;
-                position: fixed;
-                margin-top: 0;
-                top: 20px;
-                left: 55px;
-                padding: 15px 15px;
-                background-color: rgba(255, 255, 255, 0.8);
-                border: 1px hidden;
-                border-radius: 3px;
-                z-index: 800;
+			font-size: 3em;
+			font-family: 'Ubuntu', serif;
+			font-weight: bold;
+			color: #696969;
+			letter-spacing: .08em;
+			position: fixed;
+			margin-top: 0;
+			top: 20px;
+			left: 55px;
+			padding: 15px 15px;
+			background-color: rgba(255, 255, 255, 0.8);
+			border: 1px hidden;
+			border-radius: 3px;
+			z-index: 800;
 		}
+		
+		#creator h2{
+			font-size: 1em;
+			font-family: "Lora", sans-serif;
+			position: fixed;
+			bottom: 20px;
+			left: 20px;
+			width: 50px;
+		}
+		
 	</style>
 
 </head>
@@ -62,6 +74,10 @@
 		<h1 id= 'title'>
 			Boston Transportation Map
 		</h1>
+		
+		<h2 id='creator'>
+			Claire Craig
+		</h2>
 
 		<script>
 
