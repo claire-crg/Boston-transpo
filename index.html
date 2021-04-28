@@ -78,14 +78,10 @@
 			});
 
 			$.getJSON("data/busRoutes.geojson",function(data){
-				L.geoJson(data, {
+				L.geoJson(data,{color:"purple", weight:1}, {
 					onEachFeature: function(feature, layer){
 						layer.bindPopup(feature.properties.MBTA_ROUTE);
-					},
-					{weight:2,
-					color: "purple",
-					opacity:0.8,
-				}).addTo(map);
+					}).addTo(map);
 			});
 
 			$.getJSON("data/Highway_Sub_Districts.geojson",function(data){
