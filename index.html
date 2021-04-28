@@ -47,7 +47,7 @@
 
 			L.mapbox.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
 
-			var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
+			var mapboxTiles = L.tileLayer('mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8' + L.mapbox.accessToken, {
 		         attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 				maxZoom: 18,
 				});
