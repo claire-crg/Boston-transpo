@@ -85,7 +85,7 @@
 			});
 
 			$.getJSON("data/Highway_Sub_Districts.geojson",function(data){
-				L.geoJson(data,{color:"purple", weight:1}).addTo(map);
+				L.geoJson(data,{color:"purple", weight:1, fillOpacity:0}).addTo(map);
 			});
 
 			//L.geoJSON(busStops, {color: "purple", weight: 1}).addTo(map);
