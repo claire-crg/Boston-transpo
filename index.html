@@ -47,7 +47,7 @@
 			z-index: 800;
 		}
 		
-		#creator h2{
+		#author h2{
 			font-size: 1em;
 			font-family: "Lora", sans-serif;
 			position: fixed;
@@ -68,7 +68,7 @@
 			Boston Transportation Map
 		</h1>
 		
-		<h2 id='creator'>
+		<h2 id='author'>
 			Claire Craig
 		</h2>
 
@@ -98,8 +98,11 @@
 			};
 
 			$.getJSON("data/busRoutes.geojson",function(data){
-				L.geoJson(data,
+				L.geoJson(data, {
+					onEachFeature: function(feature,layer){
+						layer.bindPopup(feature.properties.MBTA_ROUTE),
 					{color: "#C4DDEE", opacity: 0.5, weight: 2};
+					}
 				}).addTo(map);
 			});
 
