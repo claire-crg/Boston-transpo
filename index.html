@@ -19,18 +19,14 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+
 	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
 
 	<style>
 
-		#map {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			width:100%;
-			height:100%;
-		}
 		#title {
 			font-size: 3em;
 			font-family: 'Ubuntu', serif;
@@ -54,7 +50,7 @@
 			position: fixed;
 			bottom: 20px;
 			left: 20px;
-			width: 50px;
+			width: 55px;
 			color: #696969;
 			background-color: rgba(255, 255, 255, 0.8);
             border: 1px hidden;
@@ -68,7 +64,7 @@
 
 	<body>
 
-		<div id='map'></div>
+		<div id='map' style ='width:100%; height:100%; position:absolute;'></div>
 
 		<h1 id= 'title'>
 			Boston Transportation Map
@@ -77,87 +73,46 @@
 		<h2 id='author'>
 			Claire Craig
 		</h2>
-
+<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
 		<script>
 
-			var map=L.map('map',{
-				center:[42.35, -71.15229363080779],
-				zoom:11
-				});
-
-			L.mapbox.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
-
-			var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
-		         attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-				maxZoom: 22,
-				});
-
-			map.addLayer(mapboxTiles);
-
-			var geojsonMarkerOptions = {
-				radius: 3,
-				fillColor: "#C4DDEE",
-				color: "#C4DDEE",
-				weight: 1,
-				opacity: 0.8,
-				fillOpacity: 0.8,
-			};
-
-			$.getJSON("data/tract_data.geojson", function(data)).addTo(map);
-
-			$.getJSON("data/busRoutes.geojson",function(data){
-				L.geoJson(data, {
-					onEachFeature: function(feature,layer){
-						layer.bindPopup(feature.properties.MBTA_ROUTE),
-					{color: "#C4DDEE", opacity: 0.5, weight: 2};
-					}
-				}).addTo(map);
+			mapboxgl.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
+			var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8',
+			center: [-71.15229363080779, 42.35],
+			zoom: 9 
 			});
 
-			$.getJSON("data/busStops.geojson",function(data){	
-				L.geoJson(data, {
-					pointToLayer: function(feature,latlng){
-						return L.circleMarker(latlng,geojsonMarkerOptions);
-					}
-				}).addTo(map);
+			function load() {
+			$.ajax({
+			    xhrFields: {
+			      withCredentials: false
+			    },
+			    dataType: 'json',
+			    url: url,
+			    success: function(geojson) {
+			        // On success add fetched data to the map.
+			        L.mapbox.featureLayer(geojson).addTo(map);
+			    }
+			  });
+			}
+			$(load);
+
+			var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
+
+			myLayer.on('layeradd', function(e) {
+			  var marker = e.layer,
+			  	feature = marker.feature;
+			  marker.setIcon(L.icon('feature.properties.icon'));
+			  var content = '<p>' + feature.properties.city + '</p>' + feature.properties.tot_workers_over16 + '<p>';
+			  marker.bindPopup(content);
 			});
-
-			$.getJSON("data/highways.geojson",function(data){
-				L.geoJson(data,{color:"#DDAD7F", weight:1, opacity: 0.9, fillOpacity:0}).addTo(map);
-			});
-
-
-			 $.get('data/data.csv', function(csvString) {
-
-		    var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
-
-		    for (var i in data) {
-		      var row = data[i];
-
-		      var popupContent="<p>"+row.city+"<p>"+"Total workers:"+row.tot_workers_over16+"<p>"+"Workers who drove alone in a car, truck, or van:"+row.alone_car_truck_van+"<p>"+"Workers who carpooled:"+row.carpool_car_truck_van+"<p>"+"Workers who used public transit:"+row.pub_trans+"<p>";
-
-		      var marker = L.marker([row.latitude, row.longitude], {
-		        opacity: 0.8,
-		        icon: L.icon({
-		        	iconUrl: 'image/car.png',
-		        	iconSize: [40,40]})
-		      }).bindPopup(popupContent);
-		      
-		      marker.addTo(map);
-		    }
-
-		  });
-
-			var bosPnt = L.marker ([42.3601,-71.0589]).addTo(map);
-			var camPnt = L.marker ([42.3736,-71.1097]).addTo(map);
-			var lynnPnt = L.marker ([42.4668,-70.9495]).addTo(map);
-			var newtPnt = L.marker ([42.337,-71.2092]).addTo(map);			
-			var qncPnt = L.marker ([42.2529,-71.0023]).addTo(map);
-			var somPnt = L.marker ([42.3876,-71.0995]).addTo(map);
+			myLayer.setGeoJSON(geojson);
+			mapPopupsJS.scrollWheelZoom.disable();
 
 		</script>
 
-	</body>
+				</body>
 
 </html>
-
