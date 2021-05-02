@@ -77,22 +77,25 @@
 		<script>
 
 			mapboxgl.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
+
 			var map = new mapboxgl.Map({
-			container: 'map',
-			style: 'mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8',
-			center: [-71.15229363080779, 42.35],
-			zoom: 9 
+				container: 'map',
+				style: 'mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8',
+				center: [-71.15229363080779, 42.35],
+				zoom: 9 
 			});
 
 			function load() {
 			$.ajax({
-			    xhrFields: {
-			      withCredentials: false
+			    headers: {
+				      'Accept': 'application/vnd.github.v3.raw'
+				},
+				 xhrFields: {
+			      	withCredentials: false
 			    },
 			    dataType: 'json',
 			    url: url,
 			    success: function(geojson) {
-			        // On success add fetched data to the map.
 			        L.mapbox.featureLayer(geojson).addTo(map);
 			    }
 			  });
@@ -105,7 +108,7 @@
 			  var marker = e.layer,
 			  	feature = marker.feature;
 			  marker.setIcon(L.icon('feature.properties.icon'));
-			  var content = '<p>' + feature.properties.city + '</p>' + feature.properties.tot_workers_over16 + '<p>';
+			  var content = "<p>"+feature.properties.city+"<p>"+"Total workers:"+feature.properties.tot_workers_over16+"<p>"+"Workers who drove alone in a car, truck, or van:"+feature.properties.alone_car_truck_van+"<p>"+"Workers who carpooled:"+feature.properties.carpool_car_truck_van+"<p>"+"Workers who used public transit:"+feature.properties.pub_trans+"<p>";
 			  marker.bindPopup(content);
 			});
 			myLayer.setGeoJSON(geojson);
