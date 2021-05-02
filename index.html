@@ -28,7 +28,7 @@
 	<style>
 
 		#title {
-			font-size: 3em;
+			font-size: 2em;
 			font-family: 'Ubuntu', serif;
 			font-weight: bold;
 			color: #696969;
@@ -36,8 +36,24 @@
 			position: fixed;
 			margin-top: 0;
 			top: 20px;
-			left: 55px;
+			left: 20px;
 			padding: 15px 15px;
+			background-color: rgba(255, 255, 255, 0.8);
+			border: 1px hidden;
+			border-radius: 3px;
+			z-index: 800;
+		}
+
+		#description {
+			font-size: .7em;
+			font-family: 'Lora', sans-serif;
+			font-weight: normal;
+			color: #696969;
+			position: fixed;
+			top: 30%;
+			left: 20px;
+			width: 30%;
+			padding: 10px 10px;
 			background-color: rgba(255, 255, 255, 0.8);
 			border: 1px hidden;
 			border-radius: 3px;
@@ -47,6 +63,7 @@
 		#author {
 			font-size: .5em;
 			font-family: "Lora", sans-serif;
+			font-weight: normal;
 			position: fixed;
 			bottom: 20px;
 			left: 20px;
@@ -69,10 +86,18 @@
 		<h1 id= 'title'>
 			Boston Transportation Map
 		</h1>
-		
-		<h2 id='author'>
-			Claire Craig
+
+		<h2 id= 'description'>
+			<p>"Boston" does not necessarily refer to the area within city limits.</p>
+      		<p>People often use the include the suburbs since it feels like a single urban region. It is not helped that the neighborhoods within Boston are significantly different from one another and often separated by major freeways. With an infrastructure geared so heavily in favor of cars, the transition between city and suburb barely unnoticeable.</p>
+      		<p>The gray-scale choropleth map layer shows population density across the metro area. Seeing as population density is not higher in Boston city proper, transportation from and across suburbs is critical.
+      		<p>The highways, in red, are designed to transport drivers into the city from the periphery and connect the periphery in a series of concentric circles emanating from the city. In this manner, the highways create zones and loops that determine proximity and accessibility to the city.</p>
+      		<p>The Boston Metro area is unfortunately known for its heavy traffic and poor public transit infrastructure. The line lines and dots show, respectively, bus lines and stops and connect towns and neighbourhoods within the highway zones.</p>
 		</h2>
+		
+		<h3 id='author'>
+			Claire Craig
+		</h3>
 <script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
 		<script>
 
@@ -83,6 +108,15 @@
 				style: 'mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8',
 				center: [-71.15229363080779, 42.35],
 				zoom: 9 
+			});
+
+			$.getJSON("data/busRoutes.geojson",function(data){
+				L.geoJson(data, {
+					onEachFeature: function(feature,layer){
+						layer.bindPopup(feature.properties.MBTA_ROUTE),
+					{color: "#C4DDEE", opacity: 0.5, weight: 2};
+					}
+				}).addTo(map);
 			});
 
 			function load() {
