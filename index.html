@@ -20,7 +20,7 @@
    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
-<link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
 
 	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
@@ -184,22 +184,7 @@
 		        .addTo(map);
 		    });
 
-		    //I also tried putting the geojson file into the code directly
-		    var geojson [
-			{"type": "FeatureCollection",
-			"name": "data",
-			"features": [
-			{ "type": "Feature", "properties": { "city": "Somerville", "tot_workers_over16": "30,025", "alone_car_truck_van": "16,741", "carpool_car_truck_van": "1,882", "pub_trans": "5,068", "icon": "image/car.png", "longitude": -71.0995, "latitude": 42.3876 }, "geometry": null },
-			{ "type": "Feature", "properties": { "city": "Boston", "tot_workers_over16": "722,210", "alone_car_truck_van": "294,131", "carpool_car_truck_van": "41,854", "pub_trans": "276,422", "icon": "image/car.png", "longitude": -71.0589, "latitude": 42.3601 }, "geometry": null },
-			{ "type": "Feature", "properties": { "city": "Cambridge", "tot_workers_over16": "151,600", "alone_car_truck_van": "62,239", "carpool_car_truck_van": "9,588", "pub_trans": "45,826", "icon": "image/car.png", "longitude": -71.1097, "latitude": 42.3736 }, "geometry": null },
-			{ "type": "Feature", "properties": { "city": "Lynn", "tot_workers_over16": "24,235", "alone_car_truck_van": "24,235", "carpool_car_truck_van": "2,629", "pub_trans": "361", "icon": "image/car.png", "longitude": -70.9495, "latitude": 42.4668 }, "geometry": null },
-			{ "type": "Feature", "properties": { "city": "Newton", "tot_workers_over16": "53,342", "alone_car_truck_van": "36,278", "carpool_car_truck_van": "3,031", "pub_trans": "5,663", "icon": "image/car.png", "longitude": -71.2092, "latitude": 42.337 }, "geometry": null },
-			{ "type": "Feature", "properties": { "city": "Quincy", "tot_workers_over16": "45,979", "alone_car_truck_van": "34,832", "carpool_car_truck_van": "2,705", "pub_trans": "4,162", "icon": "image/car.png", "longitude": -71.0023, "latitude": 42.2529 }, "geometry": null }
-			]}];
-
-			var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(mapGeo);
-			mapGeo.scrollWheelZoom.disable();
-
+		    
 		</script>
 
 				</body>
