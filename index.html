@@ -98,7 +98,8 @@
 		<h3 id='author'>
 			Claire Craig
 		</h3>
-<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
+
+		<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
 		<script>
 
 			mapboxgl.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
@@ -110,6 +111,7 @@
 				zoom: 9 
 			});
 
+			//first I tried using the leaflet method from the first map to include popups
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
 					onEachFeature: function(feature,layer){
@@ -137,8 +139,66 @@
 		      
 		      marker.addTo(map);
 		    }
-		  });
+		  	});
 			
+			//then I tried using the methods recommended by mapbox tutorials of calling in an external geojson file hosted locally
+			function load() {
+			$.ajax({
+			    headers: {
+				      'Accept': 'application/vnd.github.v3.raw'
+				},
+				 xhrFields: {
+			      	withCredentials: false
+			    },
+			    dataType: 'json',
+			    url: url,
+			    success: function(geojson) {
+			        L.mapbox.featureLayer(geojson).addTo(map);
+			    }
+			  });
+			}
+			$(load);
+
+			var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
+
+			myLayer.on('layeradd', function(e) {
+			  var marker = e.layer,
+			  	feature = marker.feature;
+			  marker.setIcon(L.icon('feature.properties.icon'));
+			  var content = "<p>"+feature.properties.city+"<p>"+"Total workers:"+feature.properties.tot_workers_over16+"<p>"+"Workers who drove alone in a car, truck, or van:"+feature.properties.alone_car_truck_van+"<p>"+"Workers who carpooled:"+feature.properties.carpool_car_truck_van+"<p>"+"Workers who used public transit:"+feature.properties.pub_trans+"<p>";
+			  marker.bindPopup(content);
+			});
+			myLayer.setGeoJSON(geojson);
+			mapPopupsJS.scrollWheelZoom.disable();
+
+			//I tried another method from the mapbox tutorials
+			map.on('click', function(e) {
+		      var features = map.queryRenderedFeatures(e.point, {
+		        layers: ['busroutes']
+		      });
+		      if (!features.length) {return;
+		     }
+		      var feature = features[0];
+		      var popup = new mapboxgl.Popup({ offset: [0, -15] }).setLngLat(feature.properties.MBTA_ROUTE)
+		        .setHTML('<p>' + feature.properties.MBTA_ROUTE + '<p>')
+		        .addTo(map);
+		    });
+
+		    //I also tried putting the geojson file into the code directly
+		    var geojson [
+			{"type": "FeatureCollection",
+			"name": "data",
+			"features": [
+			{ "type": "Feature", "properties": { "city": "Somerville", "tot_workers_over16": "30,025", "alone_car_truck_van": "16,741", "carpool_car_truck_van": "1,882", "pub_trans": "5,068", "icon": "image/car.png", "longitude": -71.0995, "latitude": 42.3876 }, "geometry": null },
+			{ "type": "Feature", "properties": { "city": "Boston", "tot_workers_over16": "722,210", "alone_car_truck_van": "294,131", "carpool_car_truck_van": "41,854", "pub_trans": "276,422", "icon": "image/car.png", "longitude": -71.0589, "latitude": 42.3601 }, "geometry": null },
+			{ "type": "Feature", "properties": { "city": "Cambridge", "tot_workers_over16": "151,600", "alone_car_truck_van": "62,239", "carpool_car_truck_van": "9,588", "pub_trans": "45,826", "icon": "image/car.png", "longitude": -71.1097, "latitude": 42.3736 }, "geometry": null },
+			{ "type": "Feature", "properties": { "city": "Lynn", "tot_workers_over16": "24,235", "alone_car_truck_van": "24,235", "carpool_car_truck_van": "2,629", "pub_trans": "361", "icon": "image/car.png", "longitude": -70.9495, "latitude": 42.4668 }, "geometry": null },
+			{ "type": "Feature", "properties": { "city": "Newton", "tot_workers_over16": "53,342", "alone_car_truck_van": "36,278", "carpool_car_truck_van": "3,031", "pub_trans": "5,663", "icon": "image/car.png", "longitude": -71.2092, "latitude": 42.337 }, "geometry": null },
+			{ "type": "Feature", "properties": { "city": "Quincy", "tot_workers_over16": "45,979", "alone_car_truck_van": "34,832", "carpool_car_truck_van": "2,705", "pub_trans": "4,162", "icon": "image/car.png", "longitude": -71.0023, "latitude": 42.2529 }, "geometry": null }
+			]}];
+
+			var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(mapGeo);
+			mapGeo.scrollWheelZoom.disable();
 
 		</script>
 
