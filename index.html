@@ -110,47 +110,17 @@
 				zoom: 9 
 			});
 
-			map.on('click', function(e) {
-		      var features = map.queryRenderedFeatures(e.point, {
-		        layers: ['busroutes']
-		      });
-		      if (!features.length) {return;
-		     }
-		      var feature = features[0];
-		      var popup = new mapboxgl.Popup({ offset: [0, -15] }).setLngLat(feature.properties.MBTA_ROUTE)
-		        .setHTML('<h4>' + feature.properties.MBTA_ROUTE + '</h4>')
-		        .addTo(map);
-		    });
+			$.getJSON("data/busRoutes.geojson",function(data){
+				L.geoJson(data, {
+					onEachFeature: function(feature,layer){
+						layer.bindPopup(feature.properties.MBTA_ROUTE),
+					{color: "#8bb9d0", opacity: 0.5, weight: 2};
+					}
+				}).addTo(map);
+				});
+			
 
-
-			function load() {
-			$.ajax({
-			    headers: {
-				      'Accept': 'application/vnd.github.v3.raw'
-				},
-				 xhrFields: {
-			      	withCredentials: false
-			    },
-			    dataType: 'json',
-			    url: url,
-			    success: function(geojson) {
-			        L.mapbox.featureLayer(geojson).addTo(map);
-			    }
-			  });
-			}
-			$(load);
-
-			var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
-
-			myLayer.on('layeradd', function(e) {
-			  var marker = e.layer,
-			  	feature = marker.feature;
-			  marker.setIcon(L.icon('feature.properties.icon'));
-			  var content = "<p>"+feature.properties.city+"<p>"+"Total workers:"+feature.properties.tot_workers_over16+"<p>"+"Workers who drove alone in a car, truck, or van:"+feature.properties.alone_car_truck_van+"<p>"+"Workers who carpooled:"+feature.properties.carpool_car_truck_van+"<p>"+"Workers who used public transit:"+feature.properties.pub_trans+"<p>";
-			  marker.bindPopup(content);
-			});
-			myLayer.setGeoJSON(geojson);
-			mapPopupsJS.scrollWheelZoom.disable();
+			
 
 		</script>
 
