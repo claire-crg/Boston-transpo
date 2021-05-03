@@ -19,18 +19,13 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+
 	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
 
 	<style>
-
-		#map {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			width:100%;
-			height:100%;
-		}
 
 		#title {
 			font-size: 2em;
@@ -104,59 +99,29 @@
 			Claire Craig
 		</h3>
 
+		<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
 		<script>
 
-			var map=L.map('map',{
-				center:[42.35, -71.15229363080779],
-				zoom:11
-				});
+			mapboxgl.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
 
-			L.mapbox.accessToken = 'pk.eyJ1IjoiY2xhaXJlLWNnIiwiYSI6ImNrbnA3bjZxdTAwOHQyb3FwdXhhbDM5d3cifQ.cX3_pLwyHaV0y3N6_X6yaw';
+			var map = new mapboxgl.Map({
+				container: 'map',
+				style: 'mapbox://styles/claire-cg/cknrt5unw11gm17qurgkky7z8',
+				center: [-71.15229363080779, 42.35],
+				zoom: 9 
+			});
 
-			var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
-		         attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-				maxZoom: 22,
-				});
-			map.addLayer(mapboxTiles);
-
-			var layer = L.mapbox.tileLayer('mapbox://styles/claire-cg/cko6ja389164d19rtsfc704wy')
-				.on('ready', function() {
-					var TileJSON = layer.getTileJson();
-				});
-			map.addLayer(mapboxTiles);
-
-			var geojsonMarkerOptions = {
-				radius: 3,
-				fillColor: "#C4DDEE",
-				color: "#C4DDEE",
-				weight: 1,
-				opacity: 0.8,
-				fillOpacity: 0.8,
-			};
-
+			//first I tried using the leaflet method from the first map to include popups
 			$.getJSON("data/busRoutes.geojson",function(data){
 				L.geoJson(data, {
 					onEachFeature: function(feature,layer){
 						layer.bindPopup(feature.properties.MBTA_ROUTE),
-					{color: "#C4DDEE", opacity: 0.5, weight: 2};
+					{color: "#8bb9d0", opacity: 0.5, weight: 2};
 					}
 				}).addTo(map);
-			});
-
-			$.getJSON("data/busStops.geojson",function(data){	
-				L.geoJson(data, {
-					pointToLayer: function(feature,latlng){
-						return L.circleMarker(latlng,geojsonMarkerOptions);
-					}
-				}).addTo(map);
-			});
-
-			$.getJSON("data/highways.geojson",function(data){
-				L.geoJson(data,{color:"#DDAD7F", weight:1, opacity: 0.9, fillOpacity:0}).addTo(map);
-			});
-
-
-			 $.get('data/data.csv', function(csvString) {
+				});
+			
+			$.get('data/data.csv', function(csvString) {
 
 		    var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
 
@@ -174,11 +139,54 @@
 		      
 		      marker.addTo(map);
 		    }
-		  });
+		  	});
+			
+			//then I tried using the methods recommended by mapbox tutorials of calling in an external geojson file hosted locally
+			function load() {
+			$.ajax({
+			    headers: {
+				      'Accept': 'application/vnd.github.v3.raw'
+				},
+				 xhrFields: {
+			      	withCredentials: false
+			    },
+			    dataType: 'json',
+			    url: url,
+			    success: function(geojson) {
+			        L.mapbox.featureLayer(geojson).addTo(map);
+			    }
+			  });
+			}
+			$(load);
 
+			var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(map);
+
+			myLayer.on('layeradd', function(e) {
+			  var marker = e.layer,
+			  	feature = marker.feature;
+			  marker.setIcon(L.icon('feature.properties.icon'));
+			  var content = "<p>"+feature.properties.city+"<p>"+"Total workers:"+feature.properties.tot_workers_over16+"<p>"+"Workers who drove alone in a car, truck, or van:"+feature.properties.alone_car_truck_van+"<p>"+"Workers who carpooled:"+feature.properties.carpool_car_truck_van+"<p>"+"Workers who used public transit:"+feature.properties.pub_trans+"<p>";
+			  marker.bindPopup(content);
+			});
+			myLayer.setGeoJSON(geojson);
+			mapPopupsJS.scrollWheelZoom.disable();
+
+			//I tried another method from the mapbox tutorials
+			map.on('click', function(e) {
+		      var features = map.queryRenderedFeatures(e.point, {
+		        layers: ['busroutes']
+		      });
+		      if (!features.length) {return;
+		     }
+		      var feature = features[0];
+		      var popup = new mapboxgl.Popup({ offset: [0, -15] }).setLngLat(feature.properties.MBTA_ROUTE)
+		        .setHTML('<p>' + feature.properties.MBTA_ROUTE + '<p>')
+		        .addTo(map);
+		    });
+
+		    
 		</script>
 
-	</body>
+				</body>
 
 </html>
-
